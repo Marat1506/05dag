@@ -6,7 +6,7 @@
       <app-button :imgName="'bigText'" @click="makeTextBig"></app-button>
       <app-button :imgName="'smallText'" @click="makeTextSmall"></app-button>
       <app-button :imgName="'image'" @click="insertImage"></app-button>
-      <button>Скопировать HTML</button>
+      <button @click="copyHTML">Скопировать HTML</button>
     </div>
     <app-text-area v-model="text" ref="textArea"></app-text-area>
   </div>
@@ -141,6 +141,16 @@ export default {
       this.text = editableDiv.innerHTML;
 
       selection.removeAllRanges();
+    },
+    copyHTML() {
+      const editableDiv = this.$refs.textArea.$refs.editableDiv;
+      const htmlContent = editableDiv.innerHTML;
+      
+      navigator.clipboard.writeText(htmlContent).then(() => {
+        alert("HTML-код успешно скопирован в буфер обмена!");
+      }).catch((err) => {
+        console.error("Ошибка при копировании в буфер обмена: ", err);
+      });
     },
   },
 };
